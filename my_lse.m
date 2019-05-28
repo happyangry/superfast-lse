@@ -503,8 +503,12 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function A = getA(index, sign_, tau)
 	% Opposite sign in the complex exponential, when compared to the paper
-% 	A = exp(sign_*1j*2*pi*(index-1)*tau');
-    A = exp(sign_*1j*2*pi*(index-index(end))*tau'); % modified by Hzr
+% 	A = exp(sign_*1j*2*pi*(index-1)*tau');  % linear array
+%     A = exp(sign_*1j*2*pi*(index-index(end))*tau'); % modified by Hzr
+    N = 15; kr = 5;
+    theta = (index-1)*2*pi/N;
+    [tau_grid,theta_grid] = meshgrid(tau,theta);
+    A = exp(sign_*1j*kr*cos(theta_grid-tau_grid));
 end
 
 function Ax = calc_Ax(as, index, N, Cinv, x)

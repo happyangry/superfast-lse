@@ -3,14 +3,16 @@
 tic
 clear
 % For reproducibility
-rng(1);
+% rng(1);
 
 % Parameters
+kr = 5;
+
 N = 15;     % number of microphones
 K = round(N/10);    % number of incident plane waves
 index = (1:N)';
 snr = 20;	% dB
-
+theta = (index-1)*2*pi/N;
 % Select frequencies by rejection sampling
 % (avoid closely located frequencies)
 while true
@@ -20,20 +22,21 @@ while true
 		break;
 	end
 end
-costhetai = cos(thetai);
+
+[thetai_grid,theta_grid] = meshgrid(thetai,theta);
 
 % Generate signal
 alpha = randn(K, 2) * [1;1j];
 % alpha = alpha./abs(alpha);	% Normalize to magnitude 1
-x = exp(-1j*2*pi*index*0.5*costhetai.') * alpha;    % d = 0.5*lambda
+x = exp(-1j*kr*cos(theta_grid-thetai_grid)) * alpha;
 noiseVar = mean(abs(x).^2) / 10^(snr/10);
 y = x + sqrt(noiseVar/2) * randn(N, 2) * [1;1j];
 
 % Run algorithm
-out = my_lse(y, index, N, 'verbose',false, 'plot',false);
+out = my_lse(y, index, N, 'verbose',false, 'plot',true);
 
 % Print result
 fprintf('True freqs,  Estimated freqs, Difference\n');
-[sort(costhetai)*0.5, out.tau, abs(sort(costhetai)*0.5-out.tau)]
+% [sort(costhetai)*0.5, out.tau, abs(sort(costhetai)*0.5-out.tau)]
 
 toc
