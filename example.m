@@ -1,3 +1,4 @@
+tic
 % For reproducibility
 rng(1);
 
@@ -18,8 +19,8 @@ while true
 end
 
 % Generate signal
-alpha = randn(K, 2) * [1;1j];
-alpha = alpha./abs(alpha);	% Normalize to magnitude 1
+alpha = randn(K, 2) * [1;1j];   % no need to normalize the magnitude
+% alpha = alpha./abs(alpha);	% Normalize to magnitude 1
 x = exp(-1j*2*pi*index*freqs') * alpha;
 noiseVar = mean(abs(x).^2) / 10^(snr/10);
 y = x + sqrt(noiseVar/2) * randn(N, 2) * [1;1j];
@@ -31,3 +32,4 @@ out = superfast_lse(y, index, N, 'verbose',false, 'plot',false);
 fprintf('True freqs,  Estimated freqs, Difference\n');
 [freqs, out.tau, abs(freqs-out.tau)]
 
+toc
