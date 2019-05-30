@@ -11,7 +11,7 @@ function as = parse_varargin(as_default, arglist)
 	end
 
 	% Handle both structs and <name>,<value> pairs
-	if numel(arglist)==1 & isstruct(arglist{1})
+	if numel(arglist)==1 && isstruct(arglist{1})
 		input = arglist{1};
 	else
 		input = struct(arglist{:});
