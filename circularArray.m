@@ -33,7 +33,7 @@ noiseVar = mean(abs(x).^2) / 10^(snr/10);
 y = x + sqrt(noiseVar/2) * randn(N, 2) * [1;1j];
 
 % Run algorithm
-out = my_lse(y, index, N, 'verbose',false, 'plot',true);
+out = my_lse(y, index, N, 'verbose',false, 'plot',true, 'use_direct', true);
 
 % Print result
 fprintf('True freqs,  Estimated freqs, Difference\n');
