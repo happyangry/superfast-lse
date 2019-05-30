@@ -192,7 +192,7 @@ function output = superfast_lse(y, index, N, varargin)
 		%%%%%%%%%%%%%%%%%%%%%%%%%
 		%% Add components?
 		%%%%%%%%%%%%%%%%%%%%%%%%%
-		if ~exist('lastApproxIter');
+		if ~exist('lastApproxIter')
 			%%%%%%%%%%%%%%%%%%%%%%%%%
 			%% Add components via approximate method
 			%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,8 +216,8 @@ function output = superfast_lse(y, index, N, varargin)
 			fMin = inf;
 			num_added = 0;
 			while cand_i<length(candidates) ...
-					& deact_i<length(deactivated) ...
-					& num_added < M/10;
+					&& deact_i<length(deactivated) ...
+					&& num_added < M/10
 				% Calculate gamma, L and mu
 				cand_i = cand_i+1;
 				l = candidates(cand_i);
@@ -234,7 +234,7 @@ function output = superfast_lse(y, index, N, varargin)
 				end
 				
 				% Check activation criterion
-				if abs(q(l))^2/s(l)>1 & activate & fNew<fMin/5 & minDist>0.05/N
+				if abs(q(l))^2/s(l)>1 && activate && fNew<fMin/5 && minDist>0.05/N
 					deact_i = deact_i + 1;
 					i = deactivated(deact_i);
 					z(i) = true;
@@ -280,7 +280,7 @@ function output = superfast_lse(y, index, N, varargin)
 								+ as.thresFactor;
 
 					% Check activation criterion
-					if abs(q(l))^2/s(l)>1 & activate
+					if abs(q(l))^2/s(l)>1 && activate
 						z(i) = true;
 						tau(i) = taugrid(l);
 						gamma(i) = (abs(q(l))^2 - s(l)) / s(l)^2;
@@ -1152,7 +1152,7 @@ function update_plot(as, y, index, N, Cinv, z, gamma, tau, beta, snr_est, iter, 
 	% Plot in frequency domain
 	subplot(3,1,1);
 	hold off
-	if ~isnan(as.tau_true) & ~isnan(as.alpha_true)
+	if ~isnan(as.tau_true) && ~isnan(as.alpha_true)
 		tau_true = mod(as.tau_true+0.5, 1) - 0.5;
 		stem(tau_true, abs(as.alpha_true), 'ro');
 		hold on;
