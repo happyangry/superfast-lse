@@ -3,7 +3,7 @@
 tic
 clear
 % For reproducibility
-% rng(1);
+rng(1);
 
 % Parameters
 kr = 5;
@@ -23,17 +23,17 @@ while true
 	end
 end
 
-[thetai_grid,theta_grid] = meshgrid(thetai,theta);
+% [thetai_grid,theta_grid] = meshgrid(thetai,theta);
 
 % Generate signal
 alpha = randn(K, 2) * [1;1j];
 % alpha = alpha./abs(alpha);	% Normalize to magnitude 1
-x = exp(-1j*kr*cos(theta_grid-thetai_grid)) * alpha;
+x = exp(-1j*kr*cos(theta-thetai')) * alpha;
 noiseVar = mean(abs(x).^2) / 10^(snr/10);
 y = x + sqrt(noiseVar/2) * randn(N, 2) * [1;1j];
 
 % Run algorithm
-out = my_lse(y, index, N, 'verbose',false, 'plot',true, 'use_direct', true);
+out = my_lse(y, index, N, 'verbose',false, 'plot',false, 'use_direct', true);
 
 % Print result
 fprintf('True freqs,  Estimated freqs, Difference\n');
